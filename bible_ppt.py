@@ -88,10 +88,10 @@ df = pd.read_excel("src/resource.xlsx", sheet_name="bible")
 window = tk.Tk()
 window.title("울산대성교회")
 
-bible_img_path = resource_path("bible.png")
+bible_img_path = resource_path("image/bible.png")
 bible_img = PhotoImage(file=bible_img_path)
 
-petra_img_path = resource_path("petra_one_third.png")
+petra_img_path = resource_path("image/petra_one_third.png")
 petra_img = PhotoImage(file=petra_img_path)
 
 window.wm_iconphoto(True, bible_img)
