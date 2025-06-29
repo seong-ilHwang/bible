@@ -7,6 +7,8 @@ import re
 import sys
 import os
 import datetime
+from pptx.enum.lang import MSO_LANGUAGE_ID
+
 
 # 구절 파싱 함수
 def parse_passage(passage):
@@ -33,7 +35,7 @@ def generate_ppt():
 
     prs = Presentation("src/template.pptx")
     missing = []
-    layout = prs.slide_layouts[1]  
+    layout = prs.slide_layouts[0]  
 
     for book, chapter, verse in verses_to_find:
         filtered = df[(df.iloc[:,0] == book) & 
@@ -47,11 +49,18 @@ def generate_ppt():
         for idx, row in filtered.iterrows():
             text = row[3]
             slide = prs.slides.add_slide(layout)
-            title = slide.shapes.title
-            content = slide.shapes.placeholders[10]
+            
+            #title = slide.shapes.title
+            #content = slide.shapes.placeholders[10]
 
-            title.text = ""
-            content.text = f"{book}{chapter}:{verse} {text}"
+            content = slide.shapes.title
+            #content = slide.shapes.placeholders[0]
+            content.text_frame.clear()
+            content.text_frame.paragraphs[0].add_run()
+            content.text_frame.paragraphs[0].text = f"{book}{chapter}:{verse} {text}"
+            content.text_frame.paragraphs[0].font.language_id= MSO_LANGUAGE_ID.KOREAN
+            #title.text = ""
+
 
     now = datetime.datetime.now()
     time_str = now.strftime("%m%d")
